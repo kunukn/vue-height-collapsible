@@ -78,11 +78,10 @@ export default {
   },
 
   beforeDestroy() {
-    this.$refs.root &&
-      this.$refs.root.removeEventListener(
-        "transitionend",
-        this.onTransitionEnd
-      );
+    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+  },
+  beforeUnmount() {
+    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
   },
 
   methods: {

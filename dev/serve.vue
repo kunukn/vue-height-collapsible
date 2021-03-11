@@ -11,6 +11,7 @@
         <span>{{ collapseState }}</span>
       </button>
       <HeightCollapsible
+        v-if="isMounted1"
         id="my-collapsible-1"
         v-slot="{ state }"
         :isOpen="isOpen"
@@ -56,6 +57,7 @@
         <span>{{ collapseState2 }}</span>
       </button>
       <HeightCollapsible
+        v-if="isMounted2"
         :isOpen="isOpen2"
         @update="onUpdate2"
         overflowOnExpanded
@@ -94,10 +96,17 @@
         </p>
       </HeightCollapsible>
     </div>
+
+    <button class="btn-mount" @click="isMounted1 = !isMounted1">
+      Toggle mount 1
+    </button>
+    <button class="btn-mount" @click="isMounted2 = !isMounted2">
+      Toggle mount 2
+    </button>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import HeightCollapsible from "@/vue-height-collapsible.vue";
 
@@ -112,13 +121,15 @@ export default Vue.extend({
       collapseState: "",
       isOpen2: true,
       collapseState2: "",
+      isMounted1: true,
+      isMounted2: true,
     };
   },
   methods: {
-    onUpdate(payload: any) {
+    onUpdate(payload) {
       this.collapseState = payload.state;
     },
-    onUpdate2(payload: any) {
+    onUpdate2(payload) {
       this.collapseState2 = payload.state;
     },
   },
@@ -189,5 +200,10 @@ body {
 
 .text + .text {
   margin-top: 2rem;
+}
+
+.btn-mount {
+  display: block;
+  margin-bottom: 1rem;
 }
 </style>

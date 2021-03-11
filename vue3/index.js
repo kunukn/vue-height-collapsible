@@ -119,7 +119,10 @@ var script = {
     this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
   },
   beforeDestroy: function beforeDestroy() {
-    this.$refs.root && this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+  },
+  beforeUnmount: function beforeUnmount() {
+    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
   },
   methods: {
     setCollapsed: function setCollapsed() {
