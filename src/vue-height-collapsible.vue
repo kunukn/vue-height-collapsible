@@ -3,10 +3,10 @@
   <component
     :is="tag"
     ref="root"
-    data-vue-height-collapsible
+    data-height-collapsible
     :data-collapse-state="collapseState"
   >
-    <slot />
+    <slot :state="collapseState" />
   </component>
 </template>
 
@@ -172,7 +172,7 @@ export default {
 
 
 <style>
-[data-vue-height-collapsible] {
+[data-height-collapsible] {
   transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>

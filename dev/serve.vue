@@ -2,12 +2,23 @@
 <template>
   <div id="app">
     <div class="block">
-      <button @click="isOpen = !isOpen" class="btn">
+      <button
+        @click="isOpen = !isOpen"
+        class="btn"
+        aria-controls="my-collapsible-1"
+      >
         <span>Toggle</span> <span>{{ isOpen }}</span>
         <span>{{ collapseState }}</span>
       </button>
-      <HeightCollapsible :isOpen="isOpen" @update="onUpdate">
+      <HeightCollapsible
+        id="my-collapsible-1"
+        v-slot="{ state }"
+        :isOpen="isOpen"
+        @update="onUpdate"
+      >
         <p class="text">
+          <strong>{{ state }}</strong
+          ><br />
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -48,8 +59,11 @@
         :isOpen="isOpen2"
         @update="onUpdate2"
         overflowOnExpanded
+        v-slot="{ state }"
       >
         <p class="text">
+          <strong>{{ state }}</strong
+          ><br />
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and

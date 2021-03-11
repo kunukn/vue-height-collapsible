@@ -12,12 +12,70 @@ Vue HeightCollapsible
 
 ## Supported versions
 
-- Vue 2: Use npm or yarn install
+- Vue 2: Use yarn or npm install
 - Vue 3: Copy the source code. You only needs this file `vue-height-collapsible.vue`
 
 ## Usage example
 
-```js
+### Simple
+
+```vue
+<template>
+  <div class="my-component">
+    <button @click="isOpen = !isOpen">
+      Toggle
+    </button>
+    <HeightCollapsible :isOpen="isOpen">
+      <p>Paragraph of text.</p>
+      <p>Another paragraph is also OK.</p>
+    </HeightCollapsible>
+  </div>
+</template>
+
+<script>
+import HeightCollapsible from "vue-height-collapsible";
+
+export default {
+  name: "MyComponent",
+  components: {
+    HeightCollapsible,
+  },
+  data() {
+    return {
+      isOpen: true,
+    };
+  },
+};
+</script>
+```
+
+### Using Aria and scoped slots
+
+```vue
+<template>
+  <div class="my-component">
+    <button
+      @click="isOpen = !isOpen"
+      :aria-expanded="isOpen"
+      aria-controls="my-collapsible-1"
+    >
+      <span>Toggle {{ collapseState }}</span>
+    </button>
+    <HeightCollapsible
+      :isOpen="isOpen"
+      @update="onUpdate"
+      v-slot="{ state }"
+      id="my-collapsible-1"
+    >
+      <p>I know the collapse state: {{ state }}</p>
+      <p>Paragraph of text.</p>
+      <p>Another paragraph is also OK.</p>
+      <p>Images and any other content are ok too.</p>
+    </HeightCollapsible>
+  </div>
+</template>
+
+<script>
 import HeightCollapsible from "vue-height-collapsible";
 
 export default {
@@ -37,21 +95,7 @@ export default {
     },
   },
 };
-```
-
-```html
-<template>
-  <div class="my-component">
-    <button @click="isOpen = !isOpen">
-      <span>Toggle {{ collapseState }}</span>
-    </button>
-    <HeightCollapsible :isOpen="isOpen" @update="onUpdate">
-      <p>Paragraph of text.</p>
-      <p>Another paragraph is also OK.</p>
-      <p>Images and any other content are ok too.</p>
-    </HeightCollapsible>
-  </div>
-</template>
+</script>
 ```
 
 ## Properties
