@@ -1,6 +1,6 @@
 {
   "name": "vue-height-collapsible",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "kunukn",
   "license": "MIT",
   "description": "Collapsible library based on CSS transition for Vue",
@@ -15,6 +15,7 @@
   },
   "files": [
     "dist/*",
+    "vue3/*",
     "vue-height-collapsible.d.ts",
     "src/**/*.vue"
   ],
