@@ -123,6 +123,7 @@ body {
   min-height: 100vh;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-family: sans-serif;
+  overflow-y: scroll;
 }
 
 #app {

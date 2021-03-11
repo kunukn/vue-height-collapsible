@@ -160,9 +160,9 @@ export default {
     onTransitionEnd(event) {
       if (event.propertyName === "height" && event.target === this.$refs.root) {
         if (this.getElementHeight() === this.$refs.root.style.height) {
-          this.setExpanded();
+          if (this.collapseState === EXPANDING) this.setExpanded();
         } else {
-          this.setCollapsed();
+          if (this.collapseState === COLLAPSING) this.setCollapsed();
         }
       }
     },
