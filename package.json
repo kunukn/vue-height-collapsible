@@ -9,10 +9,21 @@
   "module": "dist/vue-height-collapsible.esm.js",
   "unpkg": "dist/vue-height-collapsible.min.js",
   "types": "vue-height-collapsible.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunukn/vue-height-collapsible.git"
+  },
   "files": [
     "dist/*",
     "vue-height-collapsible.d.ts",
     "src/**/*.vue"
+  ],
+  "keywords": [
+    "vue",
+    "collapsible",
+    "accordion",
+    "CSS transition",
+    "library"
   ],
   "sideEffects": false,
   "scripts": {

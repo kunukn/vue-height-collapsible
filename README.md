@@ -87,3 +87,7 @@ You can specify the HTML element type for the collapse component. By default the
 If added, then `overflow: hidden` inline style will not be added when the state is `expanded`.
 
 <br>
+
+# npm
+
+https://www.npmjs.com/package/vue-height-collapsible

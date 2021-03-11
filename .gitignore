@@ -55,7 +55,7 @@ typings/
 .nuxt
 
 # custom
-dist/
+# dist/
 .out/
 .DS_Store
 
