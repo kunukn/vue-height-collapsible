@@ -10,6 +10,11 @@ Vue HeightCollapsible
 
 ![logo](logo/collapsible.svg "logo")
 
+## Demo
+
+- view https://y2jjy.csb.app
+- edit https://codesandbox.io/s/vue-height-collapsible-demo-y2jjy
+
 ## Supported versions
 
 ### Vue 2
