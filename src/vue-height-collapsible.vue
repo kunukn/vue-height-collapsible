@@ -22,8 +22,8 @@ let nextFrame = (callback) =>
     requestAnimationFrame(callback);
   });
 
-export default /*#__PURE__*/ {
-  name: "VueHeightCollapsible", // vue component name
+export default {
+  name: "HeightCollapsible",
   props: {
     isOpen: {
       type: Boolean,

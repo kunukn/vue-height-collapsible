@@ -12,7 +12,8 @@ Vue HeightCollapsible
 
 ## Supported versions
 
-Vue 2
+- Vue 2: Use npm or yarn install
+- Vue 3: Copy the source code. You only needs this file `vue-height-collapsible.vue`
 
 ## Usage example
 
