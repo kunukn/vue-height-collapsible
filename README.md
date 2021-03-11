@@ -13,6 +13,7 @@ Vue HeightCollapsible
 ## Demo
 
 - view https://y2jjy.csb.app
+
 - edit https://codesandbox.io/s/vue-height-collapsible-demo-y2jjy
 
 ## Supported versions
