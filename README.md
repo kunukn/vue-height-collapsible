@@ -1,4 +1,4 @@
-# vue-height-collapsible
+# Vue HeightCollapsible
 
 Collapsible component with CSS transition for elements with variable and dynamic height.
 
@@ -6,9 +6,15 @@ Collapsible component with CSS transition for elements with variable and dynamic
 [![gzip](https://img.shields.io/bundlephobia/minzip/vue-height-collapsible.svg)](https://bundlephobia.com/result?p=vue-height-collapsible)
 [![license](https://img.shields.io/github/license/kunukn/vue-height-collapsible.svg)](https://github.com/kunukn/vue-height-collapsible/blob/master/LICENSE)
 
-vue-height-collapsible
+Vue HeightCollapsible
 
 ![logo](logo/collapsible.svg "logo")
+
+## Supported versions
+
+Vue 2
+
+## Usage example
 
 ```js
 import HeightCollapsible from "vue-height-collapsible";
