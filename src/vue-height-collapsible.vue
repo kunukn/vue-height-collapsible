@@ -10,25 +10,19 @@
   </component>
 </template>
 
-<script lang="ts">
+<script>
 let COLLAPSED = "collapsed";
 let COLLAPSING = "collapsing";
 let EXPANDING = "expanding";
 let EXPANDED = "expanded";
 let collapseHeight = "0px";
 
-let nextFrame = (callback: () => void) =>
+let nextFrame = (callback) =>
   requestAnimationFrame(() => {
     requestAnimationFrame(callback);
   });
 
-import Vue from "vue";
-
-interface Data {
-  collapseState: string;
-}
-
-export default /*#__PURE__*/ Vue.extend({
+export default /*#__PURE__*/ {
   name: "VueHeightCollapsible", // vue component name
   props: {
     isOpen: {
@@ -52,7 +46,7 @@ export default /*#__PURE__*/ Vue.extend({
       default: "",
     },
   },
-  data(): Data {
+  data() {
     return {
       collapseState: this.isOpen ? EXPANDED : COLLAPSED,
     };
@@ -69,7 +63,7 @@ export default /*#__PURE__*/ Vue.extend({
     },
     transition(current) {
       if (this.$refs.root) {
-        (this.$refs.root as HTMLElement).style.transition = current;
+        this.$refs.root.style.transition = current;
       }
     },
   },
@@ -78,17 +72,14 @@ export default /*#__PURE__*/ Vue.extend({
     else this.setCollapsed();
 
     if (this.transition) {
-      (this.$refs.root as HTMLElement).style.transition = this.transition;
+      this.$refs.root.style.transition = this.transition;
     }
-    (this.$refs.root as HTMLElement).addEventListener(
-      "transitionend",
-      this.onTransitionEnd
-    );
+    this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
   },
 
   beforeDestroy() {
     this.$refs.root &&
-      (this.$refs.root as HTMLElement).removeEventListener(
+      this.$refs.root.removeEventListener(
         "transitionend",
         this.onTransitionEnd
       );
@@ -102,8 +93,8 @@ export default /*#__PURE__*/ Vue.extend({
 
       this.collapseState = COLLAPSED;
 
-      let el = this.$refs.root as HTMLElement;
-      el.style.overflow = this.getOverflow();
+      let el = this.$refs.root;
+      el.style.overflowY = this.getOverflow();
       el.style.height = collapseHeight;
       el.style.visibility = "hidden"; // inert
     },
@@ -116,8 +107,8 @@ export default /*#__PURE__*/ Vue.extend({
       });
       this.collapseState = EXPANDED;
 
-      let el = this.$refs.root as HTMLElement;
-      el.style.overflow = this.getOverflow();
+      let el = this.$refs.root;
+      el.style.overflowY = this.getOverflow();
       el.style.height = "";
       el.style.visibility = "";
     },
@@ -129,8 +120,8 @@ export default /*#__PURE__*/ Vue.extend({
       let height = this.getElementHeight();
 
       this.$emit("update", { state: COLLAPSING, height });
-      let el = this.$refs.root as HTMLElement;
-      el.style.overflow = this.getOverflow();
+      let el = this.$refs.root;
+      el.style.overflowY = this.getOverflow();
       el.style.height = height;
       el.style.visibility = "";
 
@@ -138,7 +129,7 @@ export default /*#__PURE__*/ Vue.extend({
         if (!this.$refs.root) return;
         if (this.collapseState !== COLLAPSING) return;
 
-        let el = this.$refs.root as HTMLElement;
+        let el = this.$refs.root;
         el.style.height = collapseHeight;
       });
     },
@@ -152,26 +143,23 @@ export default /*#__PURE__*/ Vue.extend({
         if (!this.$refs.root) return;
         if (this.collapseState !== EXPANDING) return;
 
-        let el = this.$refs.root as HTMLElement;
-        el.style.overflow = this.getOverflow();
+        let el = this.$refs.root;
+        el.style.overflowY = this.getOverflow();
         el.style.height = this.getElementHeight();
         el.style.visibility = "";
       });
     },
-    getElementHeight(): string {
-      return `${(this.$refs.root as HTMLElement).scrollHeight}px`;
+    getElementHeight() {
+      return `${this.$refs.root.scrollHeight}px`;
     },
-    getOverflow(): string {
+    getOverflow() {
       return this.collapseState === EXPANDED && this.overflowOnExpanded
         ? ""
         : "hidden";
     },
-    onTransitionEnd(event: TransitionEvent) {
+    onTransitionEnd(event) {
       if (event.propertyName === "height" && event.target === this.$refs.root) {
-        if (
-          this.getElementHeight() ===
-          (this.$refs.root as HTMLElement).style.height
-        ) {
+        if (this.getElementHeight() === this.$refs.root.style.height) {
           this.setExpanded();
         } else {
           this.setCollapsed();
@@ -179,7 +167,7 @@ export default /*#__PURE__*/ Vue.extend({
       }
     },
   },
-});
+};
 </script>
 
 
