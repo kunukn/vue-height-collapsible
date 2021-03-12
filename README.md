@@ -18,21 +18,28 @@ Vue HeightCollapsible
 
 ## Supported versions
 
-### Vue 2
+### Vue 2 and Vue 3
 
 ```bash
 npm install vue-height-collapsible
 // or yarn install vue-height-collapsible
 ```
 
-### Vue 3
+### Vue 2
 
-```bash
-npm install vue-height-collapsible/vue3
-// or yarn install vue-height-collapsible/vue3
+```vue
+import HeightCollapsible from "vue-height-collapsible";
 ```
 
-Or the source file could be copied. It is only this file.<br/>
+### Vue 3
+
+```vue
+import HeightCollapsible from "vue-height-collapsible/vue3";
+```
+
+### Alternative approach
+
+The source file could be copied. It is only this file.<br/>
 `vue-height-collapsible.vue`
 
 ## Usage example
