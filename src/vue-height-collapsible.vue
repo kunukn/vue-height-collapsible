@@ -53,18 +53,11 @@ export default {
   },
   watch: {
     isOpen(current, previous) {
-      if (current && !previous) {
-        this.setExpanding();
-      }
-
-      if (!current && previous) {
-        this.setCollapsing();
-      }
+      if (current && !previous) this.setExpanding();
+      if (!current && previous) this.setCollapsing();
     },
     transition(current) {
-      if (this.$refs.root) {
-        this.$refs.root.style.transition = current;
-      }
+      if (this.$refs.root) this.$refs.root.style.transition = current;
     },
   },
   mounted() {
@@ -74,6 +67,7 @@ export default {
     if (this.transition) {
       this.$refs.root.style.transition = this.transition;
     }
+
     this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
   },
 
@@ -88,28 +82,29 @@ export default {
     setCollapsed() {
       if (!this.$refs.root) return;
 
-      this.$emit("update", { state: COLLAPSED, height: collapseHeight });
-
       this.collapseState = COLLAPSED;
 
       let el = this.$refs.root;
       el.style.overflowY = this.getOverflow();
       el.style.height = collapseHeight;
       el.style.visibility = "hidden"; // inert
+
+      this.$emit("update", { state: COLLAPSED, height: collapseHeight });
     },
     setExpanded() {
       if (!this.$refs.root) return;
 
-      this.$emit("update", {
-        state: EXPANDED,
-        height: this.getElementHeight(),
-      });
       this.collapseState = EXPANDED;
 
       let el = this.$refs.root;
       el.style.overflowY = this.getOverflow();
       el.style.height = "";
       el.style.visibility = "";
+
+      this.$emit("update", {
+        state: EXPANDED,
+        height: this.getElementHeight(),
+      });
     },
     setCollapsing() {
       if (!this.$refs.root) return;
@@ -118,11 +113,12 @@ export default {
 
       let height = this.getElementHeight();
 
-      this.$emit("update", { state: COLLAPSING, height });
       let el = this.$refs.root;
       el.style.overflowY = this.getOverflow();
       el.style.height = height;
       el.style.visibility = "";
+
+      this.$emit("update", { state: COLLAPSING, height });
 
       nextFrame(() => {
         if (!this.$refs.root) return;
