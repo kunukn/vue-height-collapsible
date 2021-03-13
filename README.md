@@ -176,3 +176,18 @@ If added, then `overflow: hidden` inline style will not be added when the state 
 # npm
 
 https://www.npmjs.com/package/vue-height-collapsible
+
+# Design goals
+
+- let the browser handle the animation using CSS height transition
+- minimal in file size
+- minimalistic API - only have a Collapsible component which updates on isOpen props
+- flexible - provide your own markup, styling and easing
+- interruptible - can be reversed during movement
+- inert - when collapsed you should tab over the collapsed component
+- availability - from cdn or npm install, commonjs, minified or ES module
+- collapsible on height only
+
+# This was created with heavy inspiration from
+
+https://github.com/kunukn/react-collapse
