@@ -14,7 +14,7 @@ Vue HeightCollapsible
 
 - simple view https://ooisb.csb.app/
 
-- simple edit codesandbox.io/s/vue-height-collapsible-demo-ooisb
+- simple edit https://codesandbox.io/s/vue-height-collapsible-demo-ooisb
 
 - view multiple https://y2jjy.csb.app
 
