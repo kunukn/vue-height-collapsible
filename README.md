@@ -3,6 +3,7 @@
 Collapsible component with CSS transition for elements with variable and dynamic height.
 
 [![npm version](https://img.shields.io/npm/v/vue-height-collapsible.svg?style=flat-square)](https://www.npmjs.com/package/vue-height-collapsible)
+[![npm downloads](https://img.shields.io/npm/dm/vue-height-collapsible.svg?style=flat-square)](https://www.npmjs.com/package/vue-height-collapsible)
 [![gzip](https://img.shields.io/bundlephobia/minzip/vue-height-collapsible.svg)](https://bundlephobia.com/result?p=vue-height-collapsible)
 [![license](https://img.shields.io/github/license/kunukn/vue-height-collapsible.svg)](https://github.com/kunukn/vue-height-collapsible/blob/master/LICENSE)
 
