@@ -21,6 +21,10 @@ Vue HeightCollapsible
 
 - edit multiple https://codesandbox.io/s/vue-height-collapsible-demo-y2jjy
 
+<img src="demo/height-collapsible.gif" 
+  style="max-width: 360px; height: auto;"
+  alt="demo" onclick="this.src='#'">
+
 ## Supported versions
 
 ### Vue 2 and Vue 3
