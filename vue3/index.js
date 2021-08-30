@@ -55,12 +55,12 @@ function _arrayLikeToArray(arr, len) {
 
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}var COLLAPSED = "collapsed";
-var COLLAPSING = "collapsing";
-var EXPANDING = "expanding";
-var EXPANDED = "expanded";
-var UNKNOWN = "unknown";
-var collapseHeight = "0px";
+}var COLLAPSED = 'collapsed';
+var COLLAPSING = 'collapsing';
+var EXPANDING = 'expanding';
+var EXPANDED = 'expanded';
+var UNKNOWN = 'unknown';
+var collapseHeight = '0px';
 
 var nextFrame = function nextFrame(callback) {
   return requestAnimationFrame(function () {
@@ -69,7 +69,7 @@ var nextFrame = function nextFrame(callback) {
 };
 
 var script = {
-  name: "HeightCollapsible",
+  name: 'HeightCollapsible',
   props: {
     isOpen: {
       type: Boolean,
@@ -78,18 +78,15 @@ var script = {
     },
     overflowOnExpanded: {
       type: Boolean,
-      required: false,
       default: false
     },
     tag: {
       type: String,
-      required: false,
-      default: "div"
+      default: 'div'
     },
     transition: {
       type: String,
-      required: false,
-      default: ""
+      default: null
     }
   },
   data: function data() {
@@ -101,8 +98,8 @@ var script = {
   watch: {
     isOpen: function isOpen(current, previous) {
       if (!this.isMounted) {
-        this.$emit("update", {
-          error: "not mounted",
+        this.$emit('update', {
+          error: 'not mounted',
           state: UNKNOWN
         });
         return;
@@ -111,8 +108,10 @@ var script = {
       if (current && !previous) this.setExpanding();
       if (!current && previous) this.setCollapsing();
     },
-    transition: function transition(current) {
-      if (this.$refs.root) this.$refs.root.style.transition = current;
+    transition: function transition(current, previous) {
+      if (current !== previous && this.$refs.root) {
+        this.$refs.root.style.transition = current;
+      }
     }
   },
   mounted: function mounted() {
@@ -122,22 +121,22 @@ var script = {
       this.$refs.root.style.transition = this.transition;
     }
 
-    this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.addEventListener('transitionend', this.onTransitionEnd);
     this.isMounted = true;
   },
   beforeUnmount: function beforeUnmount() {
-    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.removeEventListener('transitionend', this.onTransitionEnd);
   },
   methods: {
     setCollapsed: function setCollapsed() {
       if (!this.$refs.root) return;
       this.collapseState = COLLAPSED;
-      var el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = collapseHeight;
-      el.style.visibility = "hidden"; // inert
+      var style = this.$refs.root.style;
+      style.overflowY = this.getOverflow();
+      style.height = collapseHeight;
+      style.visibility = 'hidden'; // inert
 
-      this.$emit("update", {
+      this.$emit('update', {
         state: COLLAPSED,
         height: collapseHeight
       });
@@ -145,11 +144,11 @@ var script = {
     setExpanded: function setExpanded() {
       if (!this.$refs.root) return;
       this.collapseState = EXPANDED;
-      var el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = "";
-      el.style.visibility = "";
-      this.$emit("update", {
+      var style = this.$refs.root.style;
+      style.overflowY = this.getOverflow();
+      style.height = '';
+      style.visibility = '';
+      this.$emit('update', {
         state: EXPANDED,
         height: this.getElementHeight()
       });
@@ -160,47 +159,46 @@ var script = {
       if (!this.$refs.root) return;
       this.collapseState = COLLAPSING;
       var height = this.getElementHeight();
-      var el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = height;
-      el.style.visibility = "";
-      this.$emit("update", {
+      var style = this.$refs.root.style;
+      style.overflowY = this.getOverflow();
+      style.height = height;
+      style.visibility = '';
+      this.$emit('update', {
         state: COLLAPSING,
         height: height
       });
       nextFrame(function () {
         if (!_this.$refs.root) return;
         if (_this.collapseState !== COLLAPSING) return;
-        var el = _this.$refs.root;
-        el.style.height = collapseHeight;
+        _this.$refs.root.style.height = collapseHeight;
       });
     },
     setExpanding: function setExpanding() {
       var _this2 = this;
 
       if (!this.$refs.root) return;
-      this.$emit("update", {
+      this.$emit('update', {
         state: EXPANDING,
-        height: ""
+        height: ''
       });
       this.collapseState = EXPANDING;
       nextFrame(function () {
         if (!_this2.$refs.root) return;
         if (_this2.collapseState !== EXPANDING) return;
-        var el = _this2.$refs.root;
-        el.style.overflowY = _this2.getOverflow();
-        el.style.height = _this2.getElementHeight();
-        el.style.visibility = "";
+        var style = _this2.$refs.root.style;
+        style.overflowY = _this2.getOverflow();
+        style.height = _this2.getElementHeight();
+        style.visibility = '';
       });
     },
     getElementHeight: function getElementHeight() {
       return "".concat(this.$refs.root.scrollHeight, "px");
     },
     getOverflow: function getOverflow() {
-      return this.collapseState === EXPANDED && this.overflowOnExpanded ? "" : "hidden";
+      return this.collapseState === EXPANDED && this.overflowOnExpanded ? '' : 'hidden';
     },
     onTransitionEnd: function onTransitionEnd(event) {
-      if (event.propertyName === "height" && event.target === this.$refs.root) {
+      if (event.propertyName === 'height' && event.target === this.$refs.root) {
         if (this.getElementHeight() === this.$refs.root.style.height) {
           if (this.collapseState === EXPANDING) this.setExpanded();
         } else {
@@ -222,33 +220,7 @@ var script = {
     }),
     _: 3
   }, 8, ["data-collapse-state"]);
-}function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}var css_248z = "\n[data-height-collapsible] {\n  transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);\n}\n";
-styleInject(css_248z);script.render = render;// Import vue component
+}script.render = render;// Import vue component
 
 // Default export is installable instance of component.
 // IIFE injects install function into component, allowing component

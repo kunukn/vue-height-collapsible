@@ -1,18 +1,18 @@
 import { openBlock, createBlock, resolveDynamicComponent, withCtx, renderSlot } from 'vue';
 
-let COLLAPSED = "collapsed";
-let COLLAPSING = "collapsing";
-let EXPANDING = "expanding";
-let EXPANDED = "expanded";
-let UNKNOWN = "unknown";
-let collapseHeight = "0px";
+let COLLAPSED = 'collapsed';
+let COLLAPSING = 'collapsing';
+let EXPANDING = 'expanding';
+let EXPANDED = 'expanded';
+let UNKNOWN = 'unknown';
+let collapseHeight = '0px';
 
 let nextFrame = callback => requestAnimationFrame(() => {
   requestAnimationFrame(callback);
 });
 
 var script = {
-  name: "HeightCollapsible",
+  name: 'HeightCollapsible',
   props: {
     isOpen: {
       type: Boolean,
@@ -21,18 +21,15 @@ var script = {
     },
     overflowOnExpanded: {
       type: Boolean,
-      required: false,
       default: false
     },
     tag: {
       type: String,
-      required: false,
-      default: "div"
+      default: 'div'
     },
     transition: {
       type: String,
-      required: false,
-      default: ""
+      default: null
     }
   },
 
@@ -46,8 +43,8 @@ var script = {
   watch: {
     isOpen(current, previous) {
       if (!this.isMounted) {
-        this.$emit("update", {
-          error: "not mounted",
+        this.$emit('update', {
+          error: 'not mounted',
           state: UNKNOWN
         });
         return;
@@ -57,8 +54,10 @@ var script = {
       if (!current && previous) this.setCollapsing();
     },
 
-    transition(current) {
-      if (this.$refs.root) this.$refs.root.style.transition = current;
+    transition(current, previous) {
+      if (current !== previous && this.$refs.root) {
+        this.$refs.root.style.transition = current;
+      }
     }
 
   },
@@ -70,24 +69,24 @@ var script = {
       this.$refs.root.style.transition = this.transition;
     }
 
-    this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.addEventListener('transitionend', this.onTransitionEnd);
     this.isMounted = true;
   },
 
   beforeUnmount() {
-    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.removeEventListener('transitionend', this.onTransitionEnd);
   },
 
   methods: {
     setCollapsed() {
       if (!this.$refs.root) return;
       this.collapseState = COLLAPSED;
-      let el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = collapseHeight;
-      el.style.visibility = "hidden"; // inert
+      let style = this.$refs.root.style;
+      style.overflowY = this.getOverflow();
+      style.height = collapseHeight;
+      style.visibility = 'hidden'; // inert
 
-      this.$emit("update", {
+      this.$emit('update', {
         state: COLLAPSED,
         height: collapseHeight
       });
@@ -96,11 +95,11 @@ var script = {
     setExpanded() {
       if (!this.$refs.root) return;
       this.collapseState = EXPANDED;
-      let el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = "";
-      el.style.visibility = "";
-      this.$emit("update", {
+      let style = this.$refs.root.style;
+      style.overflowY = this.getOverflow();
+      style.height = '';
+      style.visibility = '';
+      this.$emit('update', {
         state: EXPANDED,
         height: this.getElementHeight()
       });
@@ -110,36 +109,35 @@ var script = {
       if (!this.$refs.root) return;
       this.collapseState = COLLAPSING;
       let height = this.getElementHeight();
-      let el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = height;
-      el.style.visibility = "";
-      this.$emit("update", {
+      let style = this.$refs.root.style;
+      style.overflowY = this.getOverflow();
+      style.height = height;
+      style.visibility = '';
+      this.$emit('update', {
         state: COLLAPSING,
         height
       });
       nextFrame(() => {
         if (!this.$refs.root) return;
         if (this.collapseState !== COLLAPSING) return;
-        let el = this.$refs.root;
-        el.style.height = collapseHeight;
+        this.$refs.root.style.height = collapseHeight;
       });
     },
 
     setExpanding() {
       if (!this.$refs.root) return;
-      this.$emit("update", {
+      this.$emit('update', {
         state: EXPANDING,
-        height: ""
+        height: ''
       });
       this.collapseState = EXPANDING;
       nextFrame(() => {
         if (!this.$refs.root) return;
         if (this.collapseState !== EXPANDING) return;
-        let el = this.$refs.root;
-        el.style.overflowY = this.getOverflow();
-        el.style.height = this.getElementHeight();
-        el.style.visibility = "";
+        let style = this.$refs.root.style;
+        style.overflowY = this.getOverflow();
+        style.height = this.getElementHeight();
+        style.visibility = '';
       });
     },
 
@@ -148,11 +146,11 @@ var script = {
     },
 
     getOverflow() {
-      return this.collapseState === EXPANDED && this.overflowOnExpanded ? "" : "hidden";
+      return this.collapseState === EXPANDED && this.overflowOnExpanded ? '' : 'hidden';
     },
 
     onTransitionEnd(event) {
-      if (event.propertyName === "height" && event.target === this.$refs.root) {
+      if (event.propertyName === 'height' && event.target === this.$refs.root) {
         if (this.getElementHeight() === this.$refs.root.style.height) {
           if (this.collapseState === EXPANDING) this.setExpanded();
         } else {
@@ -176,36 +174,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 8, ["data-collapse-state"]);
 }
-
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z = "\n[data-height-collapsible] {\n  transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);\n}\n";
-styleInject(css_248z);
 
 script.render = render;
 

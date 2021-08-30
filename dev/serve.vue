@@ -107,40 +107,40 @@
 </template>
 
 <script>
-import Vue from "vue";
-import HeightCollapsible from "@/vue-height-collapsible.vue";
+import Vue from 'vue'
+import HeightCollapsible from '@/vue-height-collapsible.vue'
 
 export default Vue.extend({
-  name: "ServeDev",
+  name: 'ServeDev',
   components: {
     HeightCollapsible,
   },
   data() {
     return {
       isOpen: true,
-      collapseState: "",
+      collapseState: '',
       isOpen2: false,
-      collapseState2: "",
+      collapseState2: '',
       isMounted1: true,
       isMounted2: true,
-    };
+    }
   },
   methods: {
     onUpdate(payload) {
       console.log(payload)
-      this.collapseState = payload.state;
+      this.collapseState = payload.state
     },
     onUpdate2(payload) {
       console.log(payload)
-      this.collapseState2 = payload.state;
+      this.collapseState2 = payload.state
     },
   },
   mounted() {
     setTimeout(() => {
-      this.isOpen2 = true;
-    }, 300);
+      this.isOpen2 = true
+    }, 800)
   },
-});
+})
 </script>
 
 <style>
@@ -156,6 +156,10 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-family: sans-serif;
   overflow-y: scroll;
+}
+
+[data-height-collapsible] {
+  transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #app {

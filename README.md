@@ -9,7 +9,7 @@ Collapsible component with CSS transition for elements with variable and dynamic
 
 Vue HeightCollapsible
 
-![logo](logo/collapsible.svg "logo")
+![logo](logo/collapsible.svg 'logo')
 
 ## Demo
 
@@ -41,6 +41,20 @@ Vue HeightCollapsible
 </tr>
 
 </table>
+
+# CSS required
+
+:warning: ️You need to add style (transition) in your own stylesheet to add animation. Here is an example.
+
+```html
+<style>
+  [data-height-collapsible] {
+    transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>
+```
+
+Alternatively you can add it using the `transition` prop.
 
 ## Supported versions
 
@@ -75,9 +89,7 @@ The source file could be copied. It is only this file.<br/>
 ```vue
 <template>
   <div class="my-component">
-    <button @click="isOpen = !isOpen">
-      Toggle
-    </button>
+    <button @click="isOpen = !isOpen">Toggle</button>
     <HeightCollapsible :isOpen="isOpen">
       <p>Paragraph of text.</p>
       <p>Another paragraph is also OK.</p>
@@ -86,10 +98,10 @@ The source file could be copied. It is only this file.<br/>
 </template>
 
 <script>
-import HeightCollapsible from "vue-height-collapsible"
+import HeightCollapsible from 'vue-height-collapsible'
 
 export default {
-  name: "MyComponent",
+  name: 'MyComponent',
   components: {
     HeightCollapsible,
   },
@@ -129,17 +141,17 @@ export default {
 </template>
 
 <script>
-import HeightCollapsible from "vue-height-collapsible"
+import HeightCollapsible from 'vue-height-collapsible'
 
 export default {
-  name: "MyComponent",
+  name: 'MyComponent',
   components: {
     HeightCollapsible,
   },
   data() {
     return {
       isOpen: true,
-      collapseState: "",
+      collapseState: '',
     }
   },
   methods: {
@@ -171,10 +183,7 @@ Expands or collapses content.
 You can also specify a CSS transition inline by using the `transition` prop.
 
 ```html
-<HeightCollapsible
-  transition="height 300ms cubic-bezier(.4, 0, .2, 1)"
-  :isOpen="isOpen"
->
+<HeightCollapsible transition="height 300ms ease-in-out" :isOpen="isOpen">
   <p>Paragraph of text</p>
 </HeightCollapsible>
 ```
