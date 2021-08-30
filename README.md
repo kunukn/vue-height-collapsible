@@ -17,13 +17,30 @@ Vue HeightCollapsible
   style="max-width: 360px; height: auto;"
   alt="demo">
 
-- simple view https://ooisb.csb.app/
+<table style="border-spacing: 16px;border-collapse: separate;">
 
-- simple edit https://codesandbox.io/s/vue-height-collapsible-demo-ooisb
+<tr>
+<td>Codesandbox simple Vue</td>
+<td><img width="24" height="24" src="ui-library-logo/Vue-logo.svg"/></td>
+<td><a href="https://ooisb.csb.app/" target="_blank" rel="noopener noreferrer">View</a></td>
+<td><a href="https://codesandbox.io/s/vue-height-collapsible-demo-ooisb" target="_blank" rel="noopener noreferrer">Edit</a></td>
+</tr>
 
-- view multiple https://y2jjy.csb.app
+<tr>
+<td>Codesandbox multiple Vue</td>
+<td><img width="24" height="24" src="ui-library-logo/Vue-logo.svg"/></td>
+<td><a href="https://y2jjy.csb.app" target="_blank" rel="noopener noreferrer">View</a></td>
+<td><a href="https://codesandbox.io/s/vue-height-collapsible-demo-y2jjy" target="_blank" rel="noopener noreferrer">Edit</a></td>
+</tr>
 
-- edit multiple https://codesandbox.io/s/vue-height-collapsible-demo-y2jjy
+<tr>
+<td>Codesandbox simple Vue 3</td>
+<td><img width="24" height="24" src="ui-library-logo/Vue-logo.svg"/></td>
+<td><a href="https://io8x6.csb.app" target="_blank" rel="noopener noreferrer">View</a></td>
+<td><a href="https://codesandbox.io/s/vue-3-height-collapsible-demo-io8x6" target="_blank" rel="noopener noreferrer">Edit</a></td>
+</tr>
+
+</table>
 
 ## Supported versions
 
@@ -69,7 +86,7 @@ The source file could be copied. It is only this file.<br/>
 </template>
 
 <script>
-import HeightCollapsible from "vue-height-collapsible";
+import HeightCollapsible from "vue-height-collapsible"
 
 export default {
   name: "MyComponent",
@@ -79,9 +96,9 @@ export default {
   data() {
     return {
       isOpen: true,
-    };
+    }
   },
-};
+}
 </script>
 ```
 
@@ -112,7 +129,7 @@ export default {
 </template>
 
 <script>
-import HeightCollapsible from "vue-height-collapsible";
+import HeightCollapsible from "vue-height-collapsible"
 
 export default {
   name: "MyComponent",
@@ -123,14 +140,14 @@ export default {
     return {
       isOpen: true,
       collapseState: "",
-    };
+    }
   },
   methods: {
     onUpdate({ state }) {
-      this.collapseState = state;
+      this.collapseState = state
     },
   },
-};
+}
 </script>
 ```
 
@@ -201,7 +218,6 @@ https://unpkg.com/browse/vue-height-collapsible/
 # This was created with heavy inspiration from
 
 https://github.com/kunukn/react-collapse
-
 
 # Development
 
