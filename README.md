@@ -182,6 +182,11 @@ If added, then `overflow: hidden` inline style will not be added when the state 
 
 https://www.npmjs.com/package/vue-height-collapsible
 
+# CDN files
+
+To see all the available CDN files go to
+https://unpkg.com/browse/vue-height-collapsible/
+
 # Design goals
 
 - let the browser handle the animation using CSS height transition

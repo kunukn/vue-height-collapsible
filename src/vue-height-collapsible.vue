@@ -15,6 +15,7 @@ let COLLAPSED = "collapsed";
 let COLLAPSING = "collapsing";
 let EXPANDING = "expanding";
 let EXPANDED = "expanded";
+let UNKNOWN = "unknown";
 let collapseHeight = "0px";
 
 let nextFrame = (callback) =>
@@ -54,7 +55,13 @@ export default {
   },
   watch: {
     isOpen(current, previous) {
-      if (!this.isMounted) return;
+      if (!this.isMounted) {
+        this.$emit("update", {
+          error: "not mounted",
+          state: UNKNOWN,
+        });
+        return;
+      }
 
       if (current && !previous) this.setExpanding();
       if (!current && previous) this.setCollapsing();

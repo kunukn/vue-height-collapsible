@@ -127,9 +127,11 @@ export default Vue.extend({
   },
   methods: {
     onUpdate(payload) {
+      console.log(payload)
       this.collapseState = payload.state;
     },
     onUpdate2(payload) {
+      console.log(payload)
       this.collapseState2 = payload.state;
     },
   },
