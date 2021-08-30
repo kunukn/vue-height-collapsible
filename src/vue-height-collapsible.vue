@@ -1,4 +1,3 @@
-
 <template>
   <component
     :is="tag"
@@ -11,20 +10,20 @@
 </template>
 
 <script>
-let COLLAPSED = "collapsed";
-let COLLAPSING = "collapsing";
-let EXPANDING = "expanding";
-let EXPANDED = "expanded";
-let UNKNOWN = "unknown";
-let collapseHeight = "0px";
+let COLLAPSED = 'collapsed'
+let COLLAPSING = 'collapsing'
+let EXPANDING = 'expanding'
+let EXPANDED = 'expanded'
+let UNKNOWN = 'unknown'
+let collapseHeight = '0px'
 
 let nextFrame = (callback) =>
   requestAnimationFrame(() => {
-    requestAnimationFrame(callback);
-  });
+    requestAnimationFrame(callback)
+  })
 
 export default {
-  name: "HeightCollapsible",
+  name: 'HeightCollapsible',
   props: {
     isOpen: {
       type: Boolean,
@@ -33,147 +32,145 @@ export default {
     },
     overflowOnExpanded: {
       type: Boolean,
-      required: false,
       default: false,
     },
     tag: {
       type: String,
-      required: false,
-      default: "div",
+      default: 'div',
     },
     transition: {
       type: String,
-      required: false,
-      default: "",
+      default: null,
     },
   },
   data() {
     return {
       collapseState: this.isOpen ? EXPANDED : COLLAPSED,
       isMounted: false,
-    };
+    }
   },
   watch: {
     isOpen(current, previous) {
       if (!this.isMounted) {
-        this.$emit("update", {
-          error: "not mounted",
+        this.$emit('update', {
+          error: 'not mounted',
           state: UNKNOWN,
-        });
-        return;
+        })
+        return
       }
 
-      if (current && !previous) this.setExpanding();
-      if (!current && previous) this.setCollapsing();
+      if (current && !previous) this.setExpanding()
+      if (!current && previous) this.setCollapsing()
     },
-    transition(current) {
-      if (this.$refs.root) this.$refs.root.style.transition = current;
+    transition(current, previous) {
+      if (current !== previous && this.$refs.root) {
+        this.$refs.root.style.transition = current
+      }
     },
   },
   mounted() {
-    if (this.isOpen) this.setExpanded();
-    else this.setCollapsed();
+    if (this.isOpen) this.setExpanded()
+    else this.setCollapsed()
 
     if (this.transition) {
-      this.$refs.root.style.transition = this.transition;
+      this.$refs.root.style.transition = this.transition
     }
 
-    this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
-    this.isMounted = true;
+    this.$refs.root.addEventListener('transitionend', this.onTransitionEnd)
+    this.isMounted = true
   },
 
   beforeDestroy() {
-    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.removeEventListener('transitionend', this.onTransitionEnd)
   },
   beforeUnmount() {
-    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+    this.$refs.root.removeEventListener('transitionend', this.onTransitionEnd)
   },
 
   methods: {
     setCollapsed() {
-      if (!this.$refs.root) return;
+      if (!this.$refs.root) return
 
-      this.collapseState = COLLAPSED;
+      this.collapseState = COLLAPSED
 
-      let el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = collapseHeight;
-      el.style.visibility = "hidden"; // inert
+      let style = this.$refs.root.style
+      style.overflowY = this.getOverflow()
+      style.height = collapseHeight
+      style.visibility = 'hidden' // inert
 
-      this.$emit("update", { state: COLLAPSED, height: collapseHeight });
+      this.$emit('update', { state: COLLAPSED, height: collapseHeight })
     },
     setExpanded() {
-      if (!this.$refs.root) return;
+      if (!this.$refs.root) return
 
-      this.collapseState = EXPANDED;
+      this.collapseState = EXPANDED
 
-      let el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = "";
-      el.style.visibility = "";
+      let style = this.$refs.root.style
+      style.overflowY = this.getOverflow()
+      style.height = ''
+      style.visibility = ''
 
-      this.$emit("update", {
+      this.$emit('update', {
         state: EXPANDED,
         height: this.getElementHeight(),
-      });
+      })
     },
     setCollapsing() {
-      if (!this.$refs.root) return;
+      if (!this.$refs.root) return
 
-      this.collapseState = COLLAPSING;
+      this.collapseState = COLLAPSING
 
-      let height = this.getElementHeight();
+      let height = this.getElementHeight()
 
-      let el = this.$refs.root;
-      el.style.overflowY = this.getOverflow();
-      el.style.height = height;
-      el.style.visibility = "";
+      let style = this.$refs.root.style
+      style.overflowY = this.getOverflow()
+      style.height = height
+      style.visibility = ''
 
-      this.$emit("update", { state: COLLAPSING, height });
+      this.$emit('update', { state: COLLAPSING, height })
 
       nextFrame(() => {
-        if (!this.$refs.root) return;
-        if (this.collapseState !== COLLAPSING) return;
+        if (!this.$refs.root) return
+        if (this.collapseState !== COLLAPSING) return
 
-        let el = this.$refs.root;
-        el.style.height = collapseHeight;
-      });
+        this.$refs.root.style.height = collapseHeight
+      })
     },
     setExpanding() {
-      if (!this.$refs.root) return;
+      if (!this.$refs.root) return
 
-      this.$emit("update", { state: EXPANDING, height: "" });
-      this.collapseState = EXPANDING;
+      this.$emit('update', { state: EXPANDING, height: '' })
+      this.collapseState = EXPANDING
 
       nextFrame(() => {
-        if (!this.$refs.root) return;
-        if (this.collapseState !== EXPANDING) return;
+        if (!this.$refs.root) return
+        if (this.collapseState !== EXPANDING) return
 
-        let el = this.$refs.root;
-        el.style.overflowY = this.getOverflow();
-        el.style.height = this.getElementHeight();
-        el.style.visibility = "";
-      });
+        let style = this.$refs.root.style
+        style.overflowY = this.getOverflow()
+        style.height = this.getElementHeight()
+        style.visibility = ''
+      })
     },
     getElementHeight() {
-      return `${this.$refs.root.scrollHeight}px`;
+      return `${this.$refs.root.scrollHeight}px`
     },
     getOverflow() {
       return this.collapseState === EXPANDED && this.overflowOnExpanded
-        ? ""
-        : "hidden";
+        ? ''
+        : 'hidden'
     },
     onTransitionEnd(event) {
-      if (event.propertyName === "height" && event.target === this.$refs.root) {
+      if (event.propertyName === 'height' && event.target === this.$refs.root) {
         if (this.getElementHeight() === this.$refs.root.style.height) {
-          if (this.collapseState === EXPANDING) this.setExpanded();
+          if (this.collapseState === EXPANDING) this.setExpanded()
         } else {
-          if (this.collapseState === COLLAPSING) this.setCollapsed();
+          if (this.collapseState === COLLAPSING) this.setCollapsed()
         }
       }
     },
   },
-};
+}
 </script>
 
 
