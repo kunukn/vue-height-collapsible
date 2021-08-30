@@ -98,10 +98,10 @@
     </div>
 
     <button class="btn-mount" @click="isMounted1 = !isMounted1">
-      Toggle mount 1
+      Toggle mount 1 {{ isMounted1 }}
     </button>
     <button class="btn-mount" @click="isMounted2 = !isMounted2">
-      Toggle mount 2
+      Toggle mount 2 {{ isMounted2 }}
     </button>
   </div>
 </template>
@@ -119,7 +119,7 @@ export default Vue.extend({
     return {
       isOpen: true,
       collapseState: "",
-      isOpen2: true,
+      isOpen2: false,
       collapseState2: "",
       isMounted1: true,
       isMounted2: true,
@@ -132,6 +132,11 @@ export default Vue.extend({
     onUpdate2(payload) {
       this.collapseState2 = payload.state;
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isOpen2 = true;
+    }, 300);
   },
 });
 </script>
