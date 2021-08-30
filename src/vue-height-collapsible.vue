@@ -49,10 +49,13 @@ export default {
   data() {
     return {
       collapseState: this.isOpen ? EXPANDED : COLLAPSED,
+      isMounted: false,
     };
   },
   watch: {
     isOpen(current, previous) {
+      if (!this.isMounted) return;
+
       if (current && !previous) this.setExpanding();
       if (!current && previous) this.setCollapsing();
     },
@@ -60,6 +63,7 @@ export default {
       if (this.$refs.root) this.$refs.root.style.transition = current;
     },
   },
+  beforeMount() {},
   mounted() {
     if (this.isOpen) this.setExpanded();
     else this.setCollapsed();
@@ -69,6 +73,7 @@ export default {
     }
 
     this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
+    this.isMounted = true;
   },
 
   beforeDestroy() {
