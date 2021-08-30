@@ -1,4 +1,4 @@
-'use strict';var component$1=require('@/vue-collapsible3.vue');function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var component__default=/*#__PURE__*/_interopDefaultLegacy(component$1);function _slicedToArray(arr, i) {
+'use strict';var vue=require('vue');function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
@@ -7,14 +7,17 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+  if (_i == null) return;
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) break;
@@ -52,16 +55,210 @@ function _arrayLikeToArray(arr, len) {
 
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}// Import vue component
+}var COLLAPSED = "collapsed";
+var COLLAPSING = "collapsing";
+var EXPANDING = "expanding";
+var EXPANDED = "expanded";
+var UNKNOWN = "unknown";
+var collapseHeight = "0px";
+
+var nextFrame = function nextFrame(callback) {
+  return requestAnimationFrame(function () {
+    requestAnimationFrame(callback);
+  });
+};
+
+var script = {
+  name: "HeightCollapsible",
+  props: {
+    isOpen: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    overflowOnExpanded: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    tag: {
+      type: String,
+      required: false,
+      default: "div"
+    },
+    transition: {
+      type: String,
+      required: false,
+      default: ""
+    }
+  },
+  data: function data() {
+    return {
+      collapseState: this.isOpen ? EXPANDED : COLLAPSED,
+      isMounted: false
+    };
+  },
+  watch: {
+    isOpen: function isOpen(current, previous) {
+      if (!this.isMounted) {
+        this.$emit("update", {
+          error: "not mounted",
+          state: UNKNOWN
+        });
+        return;
+      }
+
+      if (current && !previous) this.setExpanding();
+      if (!current && previous) this.setCollapsing();
+    },
+    transition: function transition(current) {
+      if (this.$refs.root) this.$refs.root.style.transition = current;
+    }
+  },
+  mounted: function mounted() {
+    if (this.isOpen) this.setExpanded();else this.setCollapsed();
+
+    if (this.transition) {
+      this.$refs.root.style.transition = this.transition;
+    }
+
+    this.$refs.root.addEventListener("transitionend", this.onTransitionEnd);
+    this.isMounted = true;
+  },
+  beforeUnmount: function beforeUnmount() {
+    this.$refs.root.removeEventListener("transitionend", this.onTransitionEnd);
+  },
+  methods: {
+    setCollapsed: function setCollapsed() {
+      if (!this.$refs.root) return;
+      this.collapseState = COLLAPSED;
+      var el = this.$refs.root;
+      el.style.overflowY = this.getOverflow();
+      el.style.height = collapseHeight;
+      el.style.visibility = "hidden"; // inert
+
+      this.$emit("update", {
+        state: COLLAPSED,
+        height: collapseHeight
+      });
+    },
+    setExpanded: function setExpanded() {
+      if (!this.$refs.root) return;
+      this.collapseState = EXPANDED;
+      var el = this.$refs.root;
+      el.style.overflowY = this.getOverflow();
+      el.style.height = "";
+      el.style.visibility = "";
+      this.$emit("update", {
+        state: EXPANDED,
+        height: this.getElementHeight()
+      });
+    },
+    setCollapsing: function setCollapsing() {
+      var _this = this;
+
+      if (!this.$refs.root) return;
+      this.collapseState = COLLAPSING;
+      var height = this.getElementHeight();
+      var el = this.$refs.root;
+      el.style.overflowY = this.getOverflow();
+      el.style.height = height;
+      el.style.visibility = "";
+      this.$emit("update", {
+        state: COLLAPSING,
+        height: height
+      });
+      nextFrame(function () {
+        if (!_this.$refs.root) return;
+        if (_this.collapseState !== COLLAPSING) return;
+        var el = _this.$refs.root;
+        el.style.height = collapseHeight;
+      });
+    },
+    setExpanding: function setExpanding() {
+      var _this2 = this;
+
+      if (!this.$refs.root) return;
+      this.$emit("update", {
+        state: EXPANDING,
+        height: ""
+      });
+      this.collapseState = EXPANDING;
+      nextFrame(function () {
+        if (!_this2.$refs.root) return;
+        if (_this2.collapseState !== EXPANDING) return;
+        var el = _this2.$refs.root;
+        el.style.overflowY = _this2.getOverflow();
+        el.style.height = _this2.getElementHeight();
+        el.style.visibility = "";
+      });
+    },
+    getElementHeight: function getElementHeight() {
+      return "".concat(this.$refs.root.scrollHeight, "px");
+    },
+    getOverflow: function getOverflow() {
+      return this.collapseState === EXPANDED && this.overflowOnExpanded ? "" : "hidden";
+    },
+    onTransitionEnd: function onTransitionEnd(event) {
+      if (event.propertyName === "height" && event.target === this.$refs.root) {
+        if (this.getElementHeight() === this.$refs.root.style.height) {
+          if (this.collapseState === EXPANDING) this.setExpanded();
+        } else {
+          if (this.collapseState === COLLAPSING) this.setCollapsed();
+        }
+      }
+    }
+  }
+};function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($props.tag), {
+    ref: "root",
+    "data-height-collapsible": "",
+    "data-collapse-state": $data.collapseState
+  }, {
+    default: vue.withCtx(function () {
+      return [vue.renderSlot(_ctx.$slots, "default", {
+        state: $data.collapseState
+      })];
+    }),
+    _: 3
+  }, 8, ["data-collapse-state"]);
+}function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}var css_248z = "\n[data-height-collapsible] {\n  transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);\n}\n";
+styleInject(css_248z);script.render = render;// Import vue component
+
+// Default export is installable instance of component.
 // IIFE injects install function into component, allowing component
 // to be registered via Vue.use() as well as Vue.component(),
-
 var component = /*#__PURE__*/(function () {
-  // Get component instance
-  var installable = component__default['default']; // Attach install function executed by Vue.use()
+  // Assign InstallableComponent type
+  var installable = script; // Attach install function executed by Vue.use()
 
   installable.install = function (app) {
-    app.component('VueCollapsible3', installable);
+    app.component('VueHeightCollapsible', installable);
   };
 
   return installable;

@@ -70,7 +70,6 @@ export default {
       if (this.$refs.root) this.$refs.root.style.transition = current;
     },
   },
-  beforeMount() {},
   mounted() {
     if (this.isOpen) this.setExpanded();
     else this.setCollapsed();
