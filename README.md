@@ -196,3 +196,9 @@ https://www.npmjs.com/package/vue-height-collapsible
 # This was created with heavy inspiration from
 
 https://github.com/kunukn/react-collapse
+
+
+# Development
+
+The compiler in this repository works for Vue 2 version.<br/>
+This library was created using https://github.com/team-innovation/vue-sfc-rollup
