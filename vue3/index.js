@@ -59,7 +59,6 @@ function _nonIterableRest() {
 var COLLAPSING = 'collapsing';
 var EXPANDING = 'expanding';
 var EXPANDED = 'expanded';
-var UNKNOWN = 'unknown';
 var collapseHeight = '0px';
 
 var nextFrame = function nextFrame(callback) {
@@ -98,9 +97,9 @@ var script = {
   watch: {
     isOpen: function isOpen(current, previous) {
       if (!this.isMounted) {
-        this.$emit('update', {
-          error: 'not mounted',
-          state: UNKNOWN
+        this.$emit('error', {
+          type: 'isOpen',
+          msg: 'not mounted yet'
         });
         return;
       }

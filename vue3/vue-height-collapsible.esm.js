@@ -4,7 +4,6 @@ let COLLAPSED = 'collapsed';
 let COLLAPSING = 'collapsing';
 let EXPANDING = 'expanding';
 let EXPANDED = 'expanded';
-let UNKNOWN = 'unknown';
 let collapseHeight = '0px';
 
 let nextFrame = callback => requestAnimationFrame(() => {
@@ -43,9 +42,9 @@ var script = {
   watch: {
     isOpen(current, previous) {
       if (!this.isMounted) {
-        this.$emit('update', {
-          error: 'not mounted',
-          state: UNKNOWN
+        this.$emit('error', {
+          type: 'isOpen',
+          msg: 'not mounted yet'
         });
         return;
       }

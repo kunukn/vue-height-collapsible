@@ -14,7 +14,7 @@ let COLLAPSED = 'collapsed'
 let COLLAPSING = 'collapsing'
 let EXPANDING = 'expanding'
 let EXPANDED = 'expanded'
-let UNKNOWN = 'unknown'
+
 let collapseHeight = '0px'
 
 let nextFrame = (callback) =>
