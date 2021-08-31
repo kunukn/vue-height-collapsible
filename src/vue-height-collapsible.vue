@@ -52,9 +52,9 @@ export default {
   watch: {
     isOpen(current, previous) {
       if (!this.isMounted) {
-        this.$emit('update', {
-          error: 'not mounted',
-          state: UNKNOWN,
+        this.$emit('error', {
+          type: 'isOpen',
+          msg: 'not mounted yet',
         })
         return
       }

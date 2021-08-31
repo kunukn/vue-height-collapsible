@@ -16,6 +16,7 @@
         v-slot="{ state }"
         :isOpen="isOpen"
         @update="onUpdate"
+        @error="onError"
       >
         <p class="text">
           <strong>{{ state }}</strong
@@ -60,6 +61,7 @@
         v-if="isMounted2"
         :isOpen="isOpen2"
         @update="onUpdate2"
+        @error="onError"
         overflowOnExpanded
         v-slot="{ state }"
       >
@@ -133,6 +135,9 @@ export default Vue.extend({
     onUpdate2(payload) {
       console.log(payload)
       this.collapseState2 = payload.state
+    },
+    onError(payload) {
+      console.log(payload)
     },
   },
   mounted() {
