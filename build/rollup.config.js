@@ -10,12 +10,12 @@ import babel from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import minimist from 'minimist'
 
-// Get browserslist config and remove ie from es build targets
-const esbrowserslist = fs
-  .readFileSync('./.browserslistrc')
-  .toString()
-  .split('\n')
-  .filter((entry) => entry && entry.substring(0, 2) !== 'ie')
+// // Get browserslist config and remove ie from es build targets
+// const esbrowserslist = fs
+//   .readFileSync('./.browserslistrc')
+//   .toString()
+//   .split('\n')
+//   .filter((entry) => entry && entry.substring(0, 2) !== 'ie')
 
 const argv = minimist(process.argv.slice(2))
 
@@ -95,7 +95,7 @@ if (!argv.format || argv.format === 'es') {
           [
             '@babel/preset-env',
             {
-              targets: esbrowserslist,
+              // targets: esbrowserslist,
             },
           ],
         ],
